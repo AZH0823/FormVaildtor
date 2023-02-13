@@ -1,4 +1,4 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import Mainform from './Mainform.vue'
 
-createApp(App).mount('#app')
+createApp(Mainform).mount('#app')
