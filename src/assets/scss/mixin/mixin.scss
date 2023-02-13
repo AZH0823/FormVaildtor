@@ -1,0 +1,37 @@
+// viewpoint 斷點宣告
+// 1440px 
+@mixin pc(){
+    @media all and (max-width: $pc_breakpoint){
+        @content;
+        
+    }
+}
+// 768px 
+@mixin pad(){
+    @media all and (max-width: $t_breakpoint){
+        @content;
+        
+    }
+}
+// 414px
+@mixin mobile(){
+    @media all and (max-width: $m_breakpoint){
+        @content;
+    }
+}
+
+// font color
+@each $k, $v in $primaryColor{
+    .#{$k}{
+        color: $v;
+    }
+}
+
+// font size
+@each $k, $v in $font_size{
+#{$k}{
+    font-size: $v;
+    letter-spacing: $v * .15;
+    line-height: $v * 1.25;
+}
+}
