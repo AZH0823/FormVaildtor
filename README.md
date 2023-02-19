@@ -24,4 +24,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Build Image (Fish 截圖)
 
-![Image](/formvalidtor/src/assets/finshing.png)
+![Image](./src/assets/finshing.png)
