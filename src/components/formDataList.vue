@@ -27,7 +27,7 @@
     
     <div class="block-container">
       <ul class="data-container">
-        <li class="dataBox b-shadow bradius-20 " :class="[data.AorD ? 'levelA':'levelD']" v-for="data in datalist">
+        <li class="dataBox b-shadow bradius-20" :class="[data.AorD ? 'levelA':'levelD']" v-for="data in datalist">
             <div class="certContainer">
               <p class="level-title">{{ data.level }}</p>
             </div>
@@ -107,6 +107,7 @@
         position: relative;
 
         cursor: pointer;
+       
         .certContainer{
           position: absolute;
           top: -35%;

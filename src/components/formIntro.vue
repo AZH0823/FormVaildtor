@@ -1,7 +1,49 @@
 
 <script>
 export default {
+  setup(){
+    // scroll 動畫參數
+    const easeInQuad = function (x) {
+      return 1 - Math.pow(1 - x, 4);
+    };
 
+    // scrolling 動畫手刻
+    const scrolltoVeiew = () => {
+     
+      const top = document.querySelector("#formInputer").getBoundingClientRect().top;
+      const startPos = window.pageYOffset;
+      const diff = top;
+      const duration = 1200;
+      const yOffset = -100;
+
+      let startTime = null;
+      let requestId;
+
+      const loop = function (currentTime) {
+        if (!startTime) {
+          startTime = currentTime;
+        }
+
+        // Elapsed time in miliseconds
+        const time = currentTime - startTime;
+
+        const percent = Math.min(time / duration, 1);
+        window.scrollTo(0, startPos + yOffset + diff * easeInQuad(percent));
+
+        if (time < duration) {
+          // Continue moving
+          requestId = window.requestAnimationFrame(loop);
+        } else {
+          window.cancelAnimationFrame(requestId);
+        }
+      };
+      requestId = window.requestAnimationFrame(loop);
+
+    }
+    return {
+      scrolltoVeiew, easeInQuad
+    }
+  }
 }
 </script>
 
@@ -11,7 +53,7 @@ export default {
     <div class="block-container">
       <h2 class="white">There is no one</h2>
       <h2 class="white">who loves pain</h2>
-      <button class="form-btn b-shadow">Form</button>
+      <button class="form-btn b-shadow" @click="scrolltoVeiew">Form</button>
       <div class="para-desc">
         <img src="@/assets/images/sup01.svg" class="sup sup01" alt=""/>
         <img src="@/assets/images/sup02.svg" class="sup sup02" alt=""/>

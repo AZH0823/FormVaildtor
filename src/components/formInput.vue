@@ -1,13 +1,19 @@
 <script>
+import { ref ,reactive} from 'vue';
 export default {
+  setup(){
+    
+    return{
 
+    }
+  }
 }
 </script>
 
 <template>
   <div class="formInput fulid-container">
      <div class="block-container">
-        <div class="formInputer br-2 b-shadow bradius-20">
+        <div class="formInputer br-2 b-shadow bradius-20"  id="formInputer">
           <h5 class="formTitle p-2 bradius-20">Form</h5>
           <div class="input">
             <label for="input-store" class="p-1">store<span style="color:red">*</span></label>
@@ -37,7 +43,7 @@ export default {
               </select>
             </div>
         </div>
-        <button class="form-btn b-shadow">submit</button>
+        <button class="form-btn b-shadow" id="form-btn">submit</button>
         <p class="sub-title error">
           This person does not exist
         </p>

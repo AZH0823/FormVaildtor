@@ -140,23 +140,23 @@ body{
     box-shadow: 0px 1px 20px rgba(73, 72, 72, 0.25);
   }
 
-h1{
-  color:red;
-  text-align: center;
-  height: 100vh;
+// h1{
+//   color:red;
+//   text-align: center;
+//   height: 100vh;
   
-    @include pc() {   
-        color: green;
-    }
-    @include pad() {
-      color: pink;
-    }
-    @include mobile() {
-      color: purple;
-    }
-}
+//     @include pc() {   
+//         color: green;
+//     }
+//     @include pad() {
+//       color: pink;
+//     }
+//     @include mobile() {
+//       color: purple;
+//     }
+// }
 .sub-title.error{
   color: red;
-  margin: -20px;
+  margin: -20px auto;
 }
 </style>
