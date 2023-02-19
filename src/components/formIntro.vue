@@ -19,8 +19,8 @@ export default {
         <ul>
           <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
         </ul>
+        <h5 class="para-icons p-1 bold">paragraph</h5>
         <ul>
-          <h5 class="para-icons p-1 bold">paragraph</h5>
           <li>Quisque sodales leo <span class="bold underline">vitae vulputate auctor.</span>
           </li>
           <li>Proin ac justo ut nisl tincidunt imperdiet.Maecenas viverra libero a pellentesque blandit.</li>
@@ -78,7 +78,7 @@ export default {
     border-radius: 20px;
 
     position: relative;
-    overflow: hidden;
+    
     // sup img
     .sup{
       position: absolute;
@@ -103,6 +103,10 @@ export default {
         align-self: stretch;
         text-align: left;
         line-height: 180%;
+
+        @include mobile() {
+          text-align: inherit;
+        }
       }
       li::marker{
         display: block;
