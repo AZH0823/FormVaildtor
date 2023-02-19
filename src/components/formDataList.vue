@@ -1,7 +1,25 @@
 <script>
+  import { ref,reactive } from "vue";
   export default {
+    setup(){
+      const datalist = reactive([
+        { AorD: true, level: "A", title: "dehumidifier", tag: 'ONE' },
+        { AorD: true, level: "B", title: "range hood", tag: 'ONE' },
+        { AorD: true, level: "C", title: "vacuum cleaner", tag: 'ONE' },
+        { AorD: false, level: "D", title: "toaster", tag: 'ONE' },
+        { AorD: false, level: "E", title: "scale", tag: 'ONE' },
+        { AorD: false, level: "F", title: "straightening iron", tag: 'ONE' },
+        { AorD: false, level: "G", title: "vacuum cleaner", tag: 'ONE' }, 
+        { AorD: false, level: "H", title: "rice cooker", tag: 'ONE' }
+      ])
 
+      return {
+        datalist
+      }
+    }
   }
+
+  
 </script>
 
 <template>
@@ -9,44 +27,23 @@
     
     <div class="block-container">
       <ul class="data-container">
-        <li class="dataBox b-shadow bradius-20 levelA">
-          <div class="certContainer">
-            <p class="level-title">A</p>
-          </div>
-          <div class="amount-tag bradius-20">ONE</div>
-          <h5 class="cert-title">dehumidifier</h5>
-        </li>
-        <li class="dataBox b-shadow bradius-20 levelA">
+        <li class="dataBox b-shadow bradius-20 " :class="[data.AorD ? 'levelA':'levelD']" v-for="data in datalist">
+            <div class="certContainer">
+              <p class="level-title">{{ data.level }}</p>
+            </div>
+            <div class="amount-tag bradius-20">{{ data.tag }}</div>
+            <h5 class="cert-title">{{ data.title }}</h5>
+          </li>
+        
+          <!-- html template -->
+          <!-- <li class="dataBox b-shadow bradius-20 levelA">
             <div class="certContainer">
               <p class="level-title">A</p>
             </div>
-          <h5 class="cert-title">range hood</h5>
-        </li>
-        <li class="dataBox b-shadow bradius-20 levelA">
-            <div class="certContainer">
-              <p class="level-title">A</p>
-            </div>
-          <h5 class="cert-title">vacuum cleaner</h5>
-        </li>
-        <li class="dataBox b-shadow bradius-20 levelD">
-          <div class="certContainer levelD">
-            <p class="level-title">D</p>
-          </div>
-          <div class="amount-tag bradius-20">ONE</div>
-          <h5 class="cert-title">straightening iron</h5>
-        </li>
-        <li class="dataBox b-shadow bradius-20 levelA">
-          <h5>scale</h5>
-        </li>
-        <li class="dataBox b-shadow bradius-20 levelA">
-          <h5>toaster</h5>
-        </li>
-        <li class="dataBox b-shadow bradius-20 levelA">
-          <h5>vacuum cleaner</h5>
-        </li>
-        <li class="dataBox b-shadow bradius-20 levelA">
-          <h5>rice cooker</h5>
-        </li>
+            <div class="amount-tag bradius-20">ONE</div>
+            <h5 class="cert-title">dehumidifier</h5>
+          </li> -->
+       
       </ul>
     </div>
    
@@ -90,7 +87,7 @@
       grid-template-columns: repeat(3, 1fr);
       justify-content: center;
       justify-items: center;
-      gap: 25px;
+      gap: 45px 25px;
       padding :72px 0;
       @include pad() {
         grid-template-columns: repeat(2, 1fr);
