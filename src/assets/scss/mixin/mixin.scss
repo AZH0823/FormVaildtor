@@ -1,7 +1,7 @@
 // viewpoint 斷點宣告
 // 1440px 
 @mixin pc(){
-    @media all and (max-width: $pc_breakpoint){
+    @media all and (max-width: $pc_breakpoint) and (min-width:730px){
         @content;
         
     }
@@ -29,9 +29,9 @@
 
 // font size
 @each $k, $v in $font_size{
-#{$k}{
-    font-size: $v;
-    letter-spacing: $v * .15;
-    line-height: $v * 1.25;
-}
+    #{$k}{
+        font-size: $v;
+        letter-spacing: $v * .15;
+        line-height: $v * 1.25;
+    }
 }
