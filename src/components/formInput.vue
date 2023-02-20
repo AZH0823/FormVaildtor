@@ -43,7 +43,7 @@ export default {
     }
 
     const stroeFoucs =()=>{
-     
+     document.querySelector('#input-store').focus()
       if(stroe_DatalistDOM._rawValue.className.includes('d-none')){
         stroe_DatalistDOM._rawValue.classList.remove('d-none');
       }
@@ -169,6 +169,7 @@ export default {
           <h5 class="formTitle p-2 bradius-20">Form</h5>
           <div class="multi-select input">
             <label for="input-store" class="p-1">store<span class="p-2">*</span></label>
+            <div class="arrow" @click="stroeFoucs()"></div> 
             <!-- <select placeholder="placeholder text" id="input-store" class="bradius-20">
               <option :value="store" v-for="store in storeDataList">{{ store }}</option>
             </select> -->
@@ -294,7 +295,28 @@ export default {
         width: 100%;
         height: 57px;
         margin-bottom: 48px;
-
+        .arrow{
+          position: absolute;
+          bottom: -50%;
+          height: 60px;
+          width: 100%;
+          
+          &::after{
+            content: '';
+            display: block;
+            position: absolute;
+            right: 1%;
+            top: 5%;
+            cursor: pointer;
+            background-image: url('~@/assets/images/arrow.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            width: 30px;
+            height: 50px;
+            z-index: 10;
+          }
+        }
+        
         input {
           position: relative;
           width: 100%;
@@ -303,13 +325,7 @@ export default {
           border: 1px solid #204379;
           padding: 8px 16px; 
           z-index: 9;
-          &::after{
-            content: '';
-            display: block;
-            position: absolute;
-            right: 0%;
-            background-image: url('~@/assets/images/arrow.png');
-          }
+         
           &:not(:focus) + ul{
             opacity: 0;
             user-select: none;
@@ -323,10 +339,10 @@ export default {
           border-top: none;
           list-style: none;
           background-color: #fff;
-          overflow-y: scroll;
+          // overflow-y: scroll;
           // max-height: 150px;
-          width: 96%;
-          left: 2%;
+          width: 98%;
+          left: 1.5%;
           // display: none;
 
           li {
