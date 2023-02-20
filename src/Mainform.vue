@@ -54,6 +54,7 @@ body{
 // class style 公用項目
   .underline {
     text-decoration: underline;
+    cursor: pointer;
   }
 
   .bold {
@@ -129,7 +130,10 @@ body{
       }
     }     
   }
-  
+  .d-none{
+    // display: none;
+    visibility: hidden;
+  }
   .br-2{
     border: 2px solid #B57556;
   }
@@ -145,7 +149,7 @@ body{
   // @include mobile(){}
 
 .sub-title.error{
-  color: red;
+  color: #E06D6D;
   margin: -20px auto;
 }
 </style>

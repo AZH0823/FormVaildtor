@@ -14,7 +14,7 @@ export default {
       const startPos = window.pageYOffset;
       const diff = top;
       const duration = 1200;
-      const yOffset = -100;
+      const yOffset = -75;
 
       let startTime = null;
       let requestId;
