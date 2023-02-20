@@ -2,22 +2,47 @@
 import { ref, reactive } from 'vue';
 export default {
     setup() {
-    const storeDataList = ref(['stroe1', 'stroe2', 'stroe3'])
-    // const checklist = ref([false, false, false, false, false])
-    const reslutF = ref(false)
-    const checklist = ref([true, true, true, true, true])
+    // get dom with input(name_ref, phone_ref, amount_ref)
+    const name_ref = ref(null);
+    const phone_ref = ref(null);
+    const amount_ref = ref(null);
+    const payment_ref = ref(null);
+    const form_btn = ref(null);
+    
+    // data and userInput
+    const storeDataList = ref(['stroe1', 'stroe2', 'stroe3']);
+    const reslutF = ref(false);
+    // let checklist = reactive([true, false, false, false, false])
+    let checklist = reactive({store:true, name:false, phone:false, amount:false, payment:false})
+    // const checklist = ref([true, true, true, true, true]);
     const userInput = reactive({
       store: '',
       name: '',
       phone: '',
       amount: '',
-      payment: 'digtal payment'
+      payment: ''
     })
 
+    const blurCheck = (str) => {
+      // console.log(`blur`,str)
+      if(str == 'name'){
+        const check = vaildName()
+        check ? name_ref._rawValue.classList.remove('vaildError'): name_ref._rawValue.classList.add('vaildError');
+      }else if(str == 'phone'){
+        const check = vaildPhone();
+        check ? phone_ref._rawValue.classList.remove('vaildError') : phone_ref._rawValue.classList.add('vaildError');
+      }else if(str == 'amount'){
+        const check = vaildAmount();
+        check ? amount_ref._rawValue.classList.remove('vaildError') : amount_ref._rawValue.classList.add('vaildError');
+      }else if(str == 'payment'){
+        const check = vaildPayment();
+        check ? payment_ref._rawValue.classList.remove('vaildError') : payment_ref._rawValue.classList.add('vaildError');
+      }
+    }
     const vaildName = () => {
       let nameRule = new RegExp('^[\u4e00-\u9fa5]+$|^[a-zA-Z\s]+$');
       // console.log(`after`, nameRule.test(userInput.name.trim()))
-      return nameRule.test(userInput.name.trim())
+      return nameRule.test(userInput.name.trim());
     }
 
     const vaildPhone = () => {
@@ -28,47 +53,65 @@ export default {
 
     const vaildAmount = () => {
       return parseInt(userInput.amount) > 0;
-      // return false
     }
-    console.log(vaildName());
-    console.log(vaildPhone());
-    console.log(vaildAmount());
+
+    const vaildPayment =()=>{
+      console.log(userInput.payment.trim() !== '')
+       return userInput.payment.trim() !==''
+    }
+    
+    
+
     const submitCheck = () => {
-      console.log(`check form is vaild`)
+      console.log(`check form is vaild`);
+      
 
-      for (const result in checklist.value) {
-        // console.log(result)
-        console.log(checklist.value[result])
-        if (checklist.value[result]) {
-          reslutF.value = true
-        } else {
-          reslutF.value = false
-          // console.log(result)
-          break;
+      // 驗證格式
+      checklist.name = vaildName()
+      checklist.phone = vaildPhone()
+      checklist.amount = vaildAmount()
+      checklist.payment = vaildPayment()
+      console.log(checklist)
+
+      // 檢查最終結果
+      let count= 0;
+      for (const result in checklist) {
+        console.log(result,":",checklist[result])
+        if (checklist[result] === true) {
+          console.log(`for in true add count`)
+          count++
+        }else{
+          console.log(`for in false~ do noting`)
         }
-
       }
-
-      if (reslutF) {
-        // console.log(reslutF)
-        // console.log(`sucessful`)
-        form_btn.classList.remove('btn-fail')
-        form_btn.classList.add('btn-success')
+      const vaildCheck_length = Object.keys(checklist).length
+      if( parseInt(count) === parseInt(vaildCheck_length) ){
+        reslutF.value = true;
+      }
+      
+      console.log('finsh resltf:~',reslutF.value)
+      form_btn._rawValue.classList.remove('btn-fail');
+      form_btn._rawValue.classList.remove('btn-success');
+       
+      if(reslutF.value) {
+        // console.log('active:~ success')
+        form_btn._rawValue.classList.add('btn-success');
       } else {
-        // console.log(`fail`)
-        form_btn.classList.remove('btn-success')
-        form_btn.classList.add('btn-fail')
+        // console.log('active:~ fail')
+        form_btn._rawValue.classList.add('btn-fail');
       }
-
-
-
 
     }
     return {
+      // dom elemnt
+      name_ref, phone_ref, amount_ref, payment_ref, form_btn,
+
+      // vaildtor 
       userInput, storeDataList, checklist, reslutF,
       submitCheck,
-      // 驗證
-      vaildName, vaildPhone, vaildAmount
+      
+      vaildName, vaildPhone, vaildAmount, vaildPayment,
+      blurCheck, 
     }
   }
 }
@@ -80,38 +123,39 @@ export default {
         <div class="formInputer br-2 b-shadow bradius-20" id="formInputer">
           <h5 class="formTitle p-2 bradius-20">Form</h5>
           <div class="input">
-            <label for="input-store" class="p-1">store<span style="color:red">*</span></label>
+            <label for="input-store" class="p-1">store<span class="p-2">*</span></label>
             <select placeholder="placeholder text" id="input-store" class="bradius-20">
               <option :value="store" v-for="store in storeDataList">{{ store }}</option>
             
             </select>
           </div>
            <div class="input">
-              <label for="input-name" class="p-1">name<span style="color:red">*</span></label>
-              <input type="text" placeholder="placeholder text" id="input-name" class="bradius-20" v-model="userInput.name">
+              <label for="input-name" class="p-1">name<span class="p-2">*</span></label>
+              <input type="text" placeholder="placeholder text" id="input-name" class="bradius-20" v-model="userInput.name" @blur="blurCheck('name')" ref="name_ref">
 
-              <span v-if="!vaildName()" class="error">required</span>
+              <span v-if="!vaildName()" class="error">name format error</span>
             </div>
              <div class="input">
-              <label for="input-phone" class="p-1">phone<span style="color:red">*</span></label>
-              <input type="text" placeholder="placeholder text" id="input-phone" class="bradius-20" v-model="userInput.phone" maxlength="10">
-              <span v-if="!vaildPhone()" class="error">required</span>
+              <label for="input-phone" class="p-1">phone<span class="p-2">*</span></label>
+              <input type="text" placeholder="placeholder text" id="input-phone" class="bradius-20" v-model="userInput.phone" maxlength="10" @blur="blurCheck('phone')" ref="phone_ref">
+              <span v-if="!vaildPhone()" class="error">phone format error</span>
             </div>
              <div class="input">
-              <label for="input-amount" class="p-1">Amount of consumption<span style="color:red">*</span></label>
-              <input type="number" placeholder="placeholder text" id="input-amount" class="bradius-20" v-model.amount="userInput.amount">
-               <span v-if="!vaildAmount()" class="error">required</span>
+              <label for="input-amount" class="p-1">Amount of consumption<span class="p-2">*</span></label>
+              <input type="number" placeholder="placeholder text" id="input-amount" class="bradius-20" v-model.amount="userInput.amount" @blur="blurCheck('amount')" ref="amount_ref">
+               <span v-if="!vaildAmount()" class="error">Amount format error</span>
             </div>
              <div class="input">
-              <label for="input-pay" class="p-1">payment<span style="color:red">*</span></label>
-              <select placeholder="placeholder text" id="input-pay" class="bradius-20" v-model="userInput.payment">
+              <label for="input-pay" class="p-1">payment<span class="p-2">*</span></label>
+              <select placeholder="placeholder text" id="input-pay" class="bradius-20" v-model="userInput.payment" @blur="blurCheck('payment')" ref="payment_ref">
                 <option value="digtal payment" selected>digtal payment</option>
                 <option value="ATM">ATM</option>
               </select>
+              <span v-if="!vaildPayment()" class="error">payment format error</span>
             </div>
         </div>
-        <button class="form-btn b-shadow">submit</button>
-        <p class="sub-title error">
+        <button class="form-btn b-shadow" ref="form_btn" @click="submitCheck">submit</button>
+        <p class="sub-title error" v-if="!reslutF">
           This person does not exist
         </p>
         <!-- <button class="form-btn btn-success b-shadow">submit</button> -->
@@ -197,6 +241,16 @@ export default {
           background: #FFFFFF;
           border: 1px solid #204379;
           padding: 8px 16px; 
+        }
+        &>select:focus,
+        &>input:focus{
+          outline: 3px solid #93BBF9;
+          border: transparent;
+        }
+        &>select.vaildError,
+        &>input.vaildError{
+          outline: 3px solid #E06D6D;
+          border: transparent;
         }
         &>#input-amount::-webkit-outer-spin-button,
         &>#input-amount::-webkit-inner-spin-button{
