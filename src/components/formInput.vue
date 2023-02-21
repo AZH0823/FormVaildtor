@@ -59,12 +59,12 @@ export default {
     const vaildStore = ()=>{
       let result = false
       let temp =  storeFilter.filter(el => el === userInput.store)
-      console.log(temp)
-      console.log(`length`, temp.length)
+      // console.log(temp)
+      // console.log(`length`, temp.length)
       if(temp.length !== 0 ){
         result = true
       } 
-      console.log(`result`,result)
+      // console.log(`result`,result)
       return result
     }
     const vaildName = () => {
@@ -89,7 +89,7 @@ export default {
     }
     
     const clicklistItem = (item)=>{
-      console.log(`cc`, item)
+      // console.log(`cc`, item)
       userInput.store = item
     }
     const filterKW = computed(()=>{
@@ -100,7 +100,7 @@ export default {
 
 
     const submitCheck = () => {
-      console.log(`check form is vaild`);
+      // console.log(`check form is vaild`);
       reslutF.value = false
       checklist = reactive({ store: false, name: false, phone: false, amount: false, payment: false })
       // 驗證格式
@@ -201,7 +201,7 @@ export default {
              <div class="input">
               <label for="input-pay" class="p-1">payment<span class="p-2">*</span></label>
               <select placeholder="placeholder text" id="input-pay" class="bradius-20" v-model="userInput.payment" @blur="blurCheck('payment')" ref="payment_ref">
-                <option value="digtal payment" selected>required</option>
+                <option value="digtal payment" selected>digital payment</option>
                 <option value="ATM">ATM</option>
               </select>
               <span v-if="!vaildPayment()" class="error">required</span>
