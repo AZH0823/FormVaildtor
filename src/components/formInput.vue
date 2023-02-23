@@ -9,7 +9,8 @@ export default {
     const payment_ref = ref(null);
     const form_btn = ref(null);
     const stroe_DatalistDOM = ref(null);
-      
+    let isMouse = ref(false);
+    
     // data and userInput
     const storeDataList = reactive(['stroe1', 'stroe2', 'stroe3']);
     let storeFilter = reactive(['stroe1', 'stroe2', 'stroe3'])
@@ -44,28 +45,48 @@ export default {
 
     const stroeFoucs =()=>{
      document.querySelector('#input-store').focus()
+    //  isMouse.value = true;
       if(stroe_DatalistDOM._rawValue.className.includes('d-none')){
         stroe_DatalistDOM._rawValue.classList.remove('d-none');
+        isMouse.value = true;
       }
     }
 
-    // const stroeBlur = () => { 
-    //   if (!stroe_DatalistDOM._rawValue.className.includes('d-none')) {
-    //     改用CSS 處理
-    //     stroe_DatalistDOM._rawValue.classList.add('d-none');
-    //   }
-    // }
+    const stroeBlur = (event) => { 
+      // console.log(`trim & actice`, !document.activeElement.id === 'input-store' || userInput.store.trim() !== '')
+      if (!document.activeElement.id === 'input-store' && userInput.store.trim() ==='' ) {
+        isMouse.value = false;
+      }
+    }
 
+    const isMouseOver =()=>{
+      // console.log(`in Area`)
+      if(document.activeElement.id === 'input-store' && isMouse.value){
+        isMouse.value = true;
+      }else{
+        isMouse.value = false;
+      }
+    }
+    const isMouseOut = ()=>{
+      // console.log(`out Area`)
+      // console.log('focus:', document.activeElement.id ==='input-store')
+      if(document.activeElement.id === 'input-store'){
+        isMouse.value = true;
+      }else{
+        // console.log(`out Area without focus input-store`)
+        isMouse.value = false;
+      }
+    }
     const vaildStore = ()=>{
       let result = false
       let temp =  storeFilter.filter(el => el === userInput.store)
       // console.log(temp)
       // console.log(`length`, temp.length)
       if(temp.length !== 0 ){
-        result = true
+        result = true;
       } 
       // console.log(`result`,result)
-      return result
+      return result;
     }
     const vaildName = () => {
       let nameRule = new RegExp('^[\u4e00-\u9fa5]+$|^[a-zA-Z\s]+$');
@@ -90,7 +111,9 @@ export default {
     
     const clicklistItem = (item)=>{
       // console.log(`cc`, item)
-      userInput.store = item
+      userInput.store = item;
+      isMouse.value = false;
+
     }
     const filterKW = computed(()=>{
       // console.log(userInput.store)
@@ -104,7 +127,7 @@ export default {
       reslutF.value = false
       checklist = reactive({ store: false, name: false, phone: false, amount: false, payment: false })
       // 驗證格式
-      checklist.store = vaildStore()
+      checklist.store = vaildStore();
       checklist.name = vaildName();
       checklist.phone = vaildPhone();
       checklist.amount = vaildAmount();
@@ -117,17 +140,18 @@ export default {
         // console.log(result,":",checklist[result])
         if (checklist[result] === true) {
           // console.log(`for in true add count`)
-          count++
+          count++;
         }else{
           // console.log(`for in false~ do noting`)
         }
       }
-      const vaildCheck_length = 5
+      const vaildCheck_length = 5;
       if( parseInt(count) === parseInt(vaildCheck_length) ){
         reslutF.value = true;
+        stroeBlur();
       }
       
-      console.log('finsh resltf:~',reslutF.value)
+      // console.log('finsh resltf:~',reslutF.value)
       // 清空樣式
       form_btn._rawValue.classList.remove('btn-fail');
       form_btn._rawValue.classList.remove('btn-success');
@@ -148,7 +172,7 @@ export default {
 
       // stroe Datalist
       stroeFoucs, 
-      // stroeBlur,
+      stroeBlur,
       //filter result
       storeFilter,
       // vaildtor 
@@ -157,6 +181,9 @@ export default {
       
       vaildStore,vaildName, vaildPhone, vaildAmount, vaildPayment,
       blurCheck, 
+      isMouse,
+      isMouseOver,
+      isMouseOut
     }
   }
 }
@@ -174,10 +201,10 @@ export default {
               <option :value="store" v-for="store in storeDataList">{{ store }}</option>
             </select> -->
             <input type="text" class="bradius-20" placeholder="placeholder text" id="input-store" @focus="stroeFoucs()" @input="seachKW"
-           v-model="userInput.store"/>
+           v-model="userInput.store" @blur="stroeBlur()"/>
             <!-- @blur="stroeBlur()" -->
-            <ul ref="stroe_DatalistDOM" class="d-none" >
-              <li v-for="store in filterKW" :value="store" @click="clicklistItem(store)">{{ store }}</li>    
+            <ul ref="stroe_DatalistDOM" :class="isMouse?'':'d-none'" @mouseover="isMouseOver" @mouseleave="isMouseOut">
+              <li v-for="(store,idx) in filterKW" :value="idx+1" @click="clicklistItem(store)">{{ store }}</li>    
             </ul>
             <!-- <span class="error" v-if="filterKW.length == 0 || userInput.store== ''">store format error</span> -->
             <span class="error" v-if="!vaildStore()">required</span>
