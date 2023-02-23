@@ -9,6 +9,8 @@ export default {
     const payment_ref = ref(null);
     const form_btn = ref(null);
     const stroe_DatalistDOM = ref(null);
+
+    // check mouse is over or out then ul.
     let isMouse = ref(false);
     
     // data and userInput
@@ -196,14 +198,14 @@ export default {
           <h5 class="formTitle p-2 bradius-20">Form</h5>
           <div class="multi-select input">
             <label for="input-store" class="p-1">store<span class="p-2">*</span></label>
-            <div class="arrow" @click="stroeFoucs()"></div> 
+            <div class="arrow" @click="stroeFoucs"></div> 
             <!-- <select placeholder="placeholder text" id="input-store" class="bradius-20">
               <option :value="store" v-for="store in storeDataList">{{ store }}</option>
             </select> -->
-            <input type="text" class="bradius-20" placeholder="placeholder text" id="input-store" @focus="stroeFoucs()" @input="seachKW"
+            <input type="text" class="bradius-20" placeholder="placeholder text" id="input-store" @focus="stroeFoucs" @input="seachKW"
            v-model="userInput.store" @blur="stroeBlur()"/>
             <!-- @blur="stroeBlur()" -->
-            <ul ref="stroe_DatalistDOM" :class="isMouse?'':'d-none'" @mouseover="isMouseOver" @mouseleave="isMouseOut">
+            <ul ref="stroe_DatalistDOM" :class="isMouse ? '':'d-none'" @mouseover="isMouseOver" @mouseleave="isMouseOut">
               <li v-for="(store,idx) in filterKW" :value="idx+1" @click="clicklistItem(store)">{{ store }}</li>    
             </ul>
             <!-- <span class="error" v-if="filterKW.length == 0 || userInput.store== ''">store format error</span> -->
