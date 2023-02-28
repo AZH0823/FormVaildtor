@@ -20,7 +20,7 @@
     }
 }
 
-// font color
+
 @each $k, $v in $primaryColor{
     .#{$k}{
         color: $v;

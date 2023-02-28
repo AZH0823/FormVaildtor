@@ -98,7 +98,7 @@ body{
     &.btn-success{
       color:$primary-6;
       position: relative;
-     
+      max-width: 240px;
       &::before{
         content: "";
         display: block;

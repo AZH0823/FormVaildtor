@@ -161,9 +161,11 @@ export default {
       if(reslutF.value) {
         // console.log('active:~ success')
         form_btn._rawValue.classList.add('btn-success');
+        form_btn._rawValue.innerHTML = `SUCESSFUL`;
       } else {
         // console.log('active:~ fail')
         form_btn._rawValue.classList.add('btn-fail');
+        form_btn._rawValue.innerHTML = `FAIL`;
       }
 
     }
